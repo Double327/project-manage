@@ -11,6 +11,9 @@ import VueRouter from 'vue-router';
 import Vuex from 'vuex';
 /*引入路由*/
 import routers from "@/router/routers";
+import '@/router';
+
+import store from "@/store";
 
 Vue.use(ElementUI);
 Vue.use(VueRouter);
@@ -18,20 +21,21 @@ Vue.use(Vuex);
 
 
 Vue.prototype.msgSuccess = function (msg) {
-  this.$message({showClose: true, message: msg, type: "success"});
+    this.$message({showClose: true, message: msg, type: "success"});
 }
 
 Vue.prototype.msgWarning = function (msg) {
-  this.$message({showClose: true, message: msg, type: "warning"});
+    this.$message({showClose: true, message: msg, type: "warning"});
 }
 
 Vue.prototype.msgError = function (msg) {
-  this.$message({showClose: true, message: msg, type: 'error'});
+    this.$message({showClose: true, message: msg, type: 'error'});
 }
 
 Vue.config.productionTip = false
 
 new Vue({
-  render: h => h(App),
-  router: routers
+    render: h => h(App),
+    store,
+    router: routers
 }).$mount('#app')

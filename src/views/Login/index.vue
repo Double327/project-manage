@@ -33,15 +33,15 @@
 
 <script>
 
-import {getCaptchaImg, login} from "@/api/login";
+import {getCaptchaImg} from "@/api/login";
 
 export default {
   name: "Login",
   data() {
     return {
       userInfo: {
-        no: '',
-        password: '',
+        no: '18090255',
+        password: '123456',
         code: '',
         uuid: ''
       },
@@ -59,9 +59,12 @@ export default {
       })
     },
     handleLogin() {
-      login(this.userInfo).then(res => {
-        console.log(res);
-      });
+      this.$store.dispatch('Login', this.userInfo).then(() => {
+        this.msgSuccess('登录成功!!!')
+        this.$router.push('/index');
+      }).catch(() => {
+        this.getCode();
+      })
     }
   }
 }

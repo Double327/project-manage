@@ -6,7 +6,7 @@ import Layout from '@/layout/index';
 
 Vue.use(VueRouter);
 
-export const routes = [
+export const constantRoutes = [
     {
         path: '',
         redirect: 'index',
@@ -19,19 +19,22 @@ export const routes = [
     },
     {
         path: '',
-        component: () => Layout,
+        component: Layout,
+        redirect: 'index',
         children: [
             {
                 path: 'index',
-                component: () => import('@/views/Index')
-            }
+                component: () => import('@/views/Index'),
+                name: '首页',
+                meta: {title: '首页', icon: 'dashboard', noCache: true, affix: true}
+            },
         ]
-    }
+    },
 ];
 
 
 export default new VueRouter({
     mode: 'history', // 去掉url中的#
     scrollBehavior: () => ({y: 0}),
-    routes: routes
+    routes: constantRoutes
 });
