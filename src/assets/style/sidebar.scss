@@ -1,12 +1,37 @@
 #app {
-  .app-wrapper {
-    .sidebar-container {
-      width: 200px;
-      font-size: 16px;
 
-      .el-menu-item {
-        font-size: 18px;
-      }
+  .main-container {
+    min-height: 100%;
+    transition: margin-left .28s;
+    margin-left: 200px;
+    position: relative;
+  }
+
+  .sidebar-container {
+    width: 200px;
+    font-size: 16px;
+    height: 100%;
+    position: fixed;
+    top: 100px;
+    bottom: 0;
+    left: 0;
+    z-index: 1001;
+    overflow: hidden;
+    background-color: #F5F5F5;
+
+    .el-menu-item {
+      font-size: 18px;
+    }
+
+    .el-scrollbar {
+      height: 100%;
     }
   }
+
+  .el-menu {
+    border: none;
+    height: 100%;
+    width: 100% !important;
+  }
 }
+

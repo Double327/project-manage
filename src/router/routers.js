@@ -8,15 +8,31 @@ Vue.use(VueRouter);
 
 export const constantRoutes = [
     {
-        path: '',
-        redirect: 'index',
-        hidden: true
+        path: '/redirect',
+        component: Layout,
+        hidden: true,
+        children: [
+            {
+                path: '/redirect/:path*',
+                component: () => import('@/views/redirect')
+            }
+        ]
     },
     {
         path: '/login',
-        component: () => import('@/views/Login/index'),
+        component: () => import('@/views/login'),
         hidden: true
     },
+    // {
+    //     path: '/404',
+    //     component: () => import('@/views/error/404'),
+    //     hidden: true
+    // },
+    // {
+    //     path: '/401',
+    //     component: () => import('@/views/error/401'),
+    //     hidden: true
+    // },
     {
         path: '',
         component: Layout,
@@ -30,6 +46,20 @@ export const constantRoutes = [
             },
         ]
     },
+    {
+        path: '/user',
+        component: Layout,
+        hidden: true,
+        redirect: 'noRedirect',
+        children: [
+            {
+                path: 'profile',
+                component: () => import('@/views/profile/index'),
+                name: '个人中心',
+                meta: {title: '个人中心', icon: 'user'}
+            }
+        ]
+    }
 ];
 
 

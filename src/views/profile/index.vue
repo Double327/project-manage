@@ -1,14 +1,12 @@
 <template>
-  <div class="container">
+  <div class="">
 
   </div>
 </template>
 
 <script>
-
-
 export default {
-  name: "index",
+  name: "profile"
 }
 </script>
 

@@ -4,15 +4,16 @@
         v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)&&!item.alwaysShow">
       <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
         <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-noDropdown':!isNest}">
-          <span v-if="item.meta">{{item.meta.title}}</span>
+          <span slot="title" v-if="item.length">{{ item[0].meta.title }}</span>
+          <span slot="title" v-if="item.meta">{{ item.meta.title }}</span>
         </el-menu-item>
       </app-link>
     </template>
 
     <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)" popper-append-to-body>
       <template slot="title">
-<!--        <item v-if="item.meta" :icon="item.meta && item.meta.icon" :title="item.meta.title"/>-->
-        <span v-if="item.meta">{{item.meta.title}}</span>
+        <!--        <item v-if="item.meta" :icon="item.meta && item.meta.icon" :title="item.meta.title"/>-->
+        <span slot="title" v-if="item.meta">{{ item.meta.title }}</span>
       </template>
       <sidebar-item
           v-for="child in item.children"
@@ -64,7 +65,7 @@ export default {
           return true
         }
       });
-
+      console.log(showingChildren);
       // When there is only one child router, the child router is displayed by default
       if (showingChildren.length === 1) {
         return true
@@ -75,7 +76,6 @@ export default {
         this.onlyOneChild = {...parent, path: '', noShowingChildren: true};
         return true
       }
-
       return false
     },
     resolvePath(routePath) {
