@@ -65,7 +65,6 @@ export default {
           return true
         }
       });
-      console.log(showingChildren);
       // When there is only one child router, the child router is displayed by default
       if (showingChildren.length === 1) {
         return true
