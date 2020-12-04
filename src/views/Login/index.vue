@@ -55,7 +55,7 @@ export default {
     getCode() {
       getCaptchaImg().then(res => {
         this.codeImg = res.img;
-        this.uuid = res.uuid;
+        this.userInfo.uuid = res.uuid;
       })
     },
     handleLogin() {
@@ -74,7 +74,7 @@ export default {
 .login {
   background-image: url("../../assets/img/img_login/bk_img.png");
   background-size: 100% 100%;
-  height: 850px;
+  height: 100%;
   padding-top: 60px;
   box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, .05);
   -webkit-box-shadow: #d4d2d2 0 0 10px;
@@ -89,6 +89,7 @@ export default {
     background-color: rgb(234, 232, 233);
     border-radius: 8px;
     padding: 30px 40px;
+    box-sizing: unset;
 
     .title {
       text-align: center;
