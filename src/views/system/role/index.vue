@@ -1,12 +1,12 @@
 <template>
-  <div class="">
+  <div>
     Role
   </div>
 </template>
 
 <script>
 export default {
-  name: "Role"
+  name: "index"
 }
 </script>
 

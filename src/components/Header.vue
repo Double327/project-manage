@@ -10,7 +10,7 @@
           <el-avatar class="dropdown-avatar" :src="avatar" :size="60"></el-avatar>
         </div>
         <el-dropdown-menu slot="dropdown">
-          <router-link to="/index">
+          <router-link to="/user/profile">
             <el-dropdown-item>
               个人信息
             </el-dropdown-item>
