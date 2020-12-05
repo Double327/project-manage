@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import '@/assets/style/global.scss';
+import {addDateRange, parseTime, resetForm, selectDictLabel} from "@/utils/commonUtils";
 
 /*引入 Element-UI*/
 import ElementUI from 'element-ui';
@@ -18,6 +19,12 @@ import store from "@/store";
 Vue.use(ElementUI);
 Vue.use(VueRouter);
 Vue.use(Vuex);
+
+/*全局方法*/
+Vue.prototype.addDateRange = addDateRange;
+Vue.prototype.parseTime = parseTime;
+Vue.prototype.resetForm = resetForm;
+Vue.prototype.selectDictLabel = selectDictLabel;
 
 
 Vue.prototype.msgSuccess = function (msg) {
