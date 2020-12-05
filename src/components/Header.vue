@@ -41,8 +41,11 @@ export default {
 
 <style lang="scss" scoped>
 .navbar {
+  position: fixed;
+  width: 100%;
   height: 100px;
   background-color: rgb(128, 30, 31);
+  z-index: 999;
 
   .left-box {
     float: left;
