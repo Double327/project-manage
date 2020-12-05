@@ -63,15 +63,6 @@ service.interceptors.response.use(response => {
             })
         } else if (code === 403) {
             router.push({path: '/401'})
-        } else {
-            console.log(error);
-            const errorMsg = error.response.data.msg;
-            if (errorMsg !== undefined) {
-                Notification.error({
-                    title: errorMsg,
-                    duration: 3000
-                })
-            }
         }
         return Promise.reject(error)
     }

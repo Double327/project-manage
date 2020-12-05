@@ -21,19 +21,3 @@ export function getTreeSelect() {
         method: 'get'
     });
 }
-
-export function addRole(info) {
-    return request({
-        url: '/system/menu',
-        method: 'post',
-        params: info
-    });
-}
-
-export function updateRole(info) {
-    return request({
-        url: '/system/menu',
-        method: 'put',
-        params: info
-    });
-}
