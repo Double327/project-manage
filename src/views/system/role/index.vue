@@ -28,21 +28,21 @@
             <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAddRole">增加</el-button>
           </el-col>
           <el-col :span="1.5">
-            <el-button type="danger" icon="el-icon-delete" size="mini">删除</el-button>
+            <el-button type="danger" icon="el-icon-delete" size="mini" @click="handleDeleteRole">删除</el-button>
           </el-col>
           <el-col :span="1.5">
             <el-button type="success" icon="el-icon-edit" size="mini">修改</el-button>
           </el-col>
         </el-row>
         <!-- 数据展示 -->
-        <el-table :data="list" v-loading="loading">
+        <el-table :data="list" v-loading="loading" @selection-change="handleSelectionChange">
           <el-table-column type="selection" align="center"/>
           <el-table-column label="角色名称" align="center" prop="name" :show-overflow-tooltip="true"/>
           <el-table-column label="权限字符" prop="key" align="center" :show-overflow-tooltip="true"/>
           <el-table-column label="显示顺序" align="center" prop="sortNum"/>
           <el-table-column label="状态" align="center">
             <template slot-scope="scope">
-              <el-switch v-model="scope.row.status" active-value="0" inactive-value="1"/>
+              <el-switch v-model="scope.row.status" active-value="0" inactive-value="1" @change="changeRoleStatus(scope.row)"/>
             </template>
           </el-table-column>
           <el-table-column label="创建时间" align="center" prop="createTime">
@@ -55,17 +55,13 @@
               <el-button size="mini" type="text" icon="el-icon-edit"
                          @click="handleUpdate(scope.row)">修改
               </el-button>
-              <el-popover :ref="scope.row.id" placement="top" width="180">
-                <p>确定删除本条数据吗？</p>
-                <div style="text-align: right; margin: 0">
-                  <el-button size="mini" type="text" @click="$refs[scope.row.id].doClose()">取消
-                  </el-button>
-                  <el-button :loading="loading" type="primary" size="mini">确定
-                  </el-button>
-                </div>
-                <el-button slot="reference" type="text" icon="el-icon-delete" size="mini">删除
-                </el-button>
-              </el-popover>
+              <el-button
+                  slot="reference"
+                  type="text"
+                  icon="el-icon-delete"
+                  size="mini"
+                  @click="handleDeleteRole(scope.row)">删除
+              </el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -125,7 +121,7 @@
 <script>
 import initData from "@/mixins/initData";
 import {getTreeSelect} from "@/api/system/menu";
-import {addRole, listRole, updateRole} from "@/api/system/role";
+import {addRole, changeRoleStatus, deleteRole, listRole, updateRole} from "@/api/system/role";
 import Pagination from '@/components/Pagination/index';
 
 export default {
@@ -170,7 +166,6 @@ export default {
     getList() {
       this.loading = true;
       listRole(this.addDateRange(this.queryParams, this.dateRange)).then(res => {
-        console.log(res);
         this.list = res.rows;
         this.total = res.total;
         this.loading = false;
@@ -194,16 +189,33 @@ export default {
     handleCheckedTreeNodeAll(value) {
       this.$refs.menu.setCheckedNodes(value ? this.menuOptions : []);
     },
-    changeRoleStatus() {
-
+    handleSelectionChange(selection) {
+      this.ids = selection.map(item => item.roleId)
+      this.single = selection.length !== 1
+      this.multiple = !selection.length
+    },
+    changeRoleStatus(row) {
+      changeRoleStatus(row).then(res => {
+        console.log(res);
+      })
     },
     handleAddRole() {
       this.title = '添加角色';
       this.open = true;
       this.getMenuTreeSelect();
     },
-    handleDeleteRole() {
-
+    handleDeleteRole(row) {
+      const deleteIds = row.id || this.ids;
+      this.$confirm('是否删除编号为' + deleteIds + '的数据项?', '警告', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        return deleteRole(deleteIds);
+      }).then(() => {
+        this.getList();
+        this.msgSuccess("删除成功!!!")
+      })
     },
     handleUpdateRole() {
 
