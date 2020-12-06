@@ -76,7 +76,7 @@
             :total="total"
             :page.sync="queryParams.pageNum"
             :limit.sync="queryParams.pageSize"
-            @pagination="getList"
+            @pagination="init"
         />
 
         <!-- 新增、修改对话框 -->
@@ -170,11 +170,11 @@ export default {
     getList() {
       this.loading = true;
       listRole(this.addDateRange(this.queryParams, this.dateRange)).then(res => {
+        console.log(res);
         this.list = res.rows;
         this.total = res.total;
         this.loading = false;
-      })
-      this.loading = false;
+      });
     },
     getAllSelectedMenuKey() {
       /*全选中节点*/
