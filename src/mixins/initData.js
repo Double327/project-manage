@@ -82,7 +82,7 @@ export default {
         handleSelectionChange(selection) {
             this.row = selection[0];
             this.ids = selection.map(item => item.id);
-            this.single = selection.length != 1;
+            this.single = selection.length !== 1;
             this.multiple = !selection.length
         },
         /** 单条删除 */
@@ -91,7 +91,7 @@ export default {
             return new Promise((resolve, reject) => {
                 del(this.base, id).then(response => {
                     this.delLoading = false;
-                    if (response.code == 200) {
+                    if (response.code === 200) {
                         this.$refs[id].doClose();
                         this.init();
                         this.msgSuccess("删除成功");
