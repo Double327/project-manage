@@ -20,7 +20,7 @@
 <script>
 import EditPassword from "@/views/profile/components/EditPassword";
 import EditProfile from "@/views/profile/components/EditProfile";
-import {getUserProfile} from "@/api/user/user";
+import {getUserProfile} from "@/api/system/user";
 import UserCard from "@/views/profile/components/UserCard";
 
 export default {

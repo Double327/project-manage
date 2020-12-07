@@ -27,7 +27,7 @@
         <!-- 功能按钮 -->
         <el-row :gutter="10">
           <el-col :span="1.5">
-            <el-button type="primary" icon="el-icon-plus" size="mini">增加</el-button>
+            <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAdd">增加</el-button>
           </el-col>
           <el-col :span="1.5">
             <el-button type="danger" icon="el-icon-delete" size="mini">删除</el-button>
@@ -39,12 +39,12 @@
         <!-- 数据展示 -->
         <el-table :data="list" v-loading="loading">
           <el-table-column type="selection" align="center"/>
-          <el-table-column label="姓名" align="center" width="100" prop="name" :show-overflow-tooltip="true"/>
+          <el-table-column label="姓名" align="center" width="100px" prop="name" :show-overflow-tooltip="true"/>
           <el-table-column label="学号" prop="no" width="100px" align="center" :show-overflow-tooltip="true"/>
           <el-table-column label="班级" width="80px" align="center" prop="className"/>
-          <el-table-column label="手机号" align="center" prop="phone"/>
-          <el-table-column label="邮箱" align="center" width="200" prop="email"/>
-          <el-table-column label="出生日期" align="center" width="200" prop="birth">
+          <el-table-column label="手机号" align="center" width="150px" prop="phone"/>
+          <el-table-column label="邮箱" align="center" width="200px" prop="email"/>
+          <el-table-column label="出生日期" align="center" width="200px" prop="birth">
             <template slot-scope="scope">
               <span>{{ parseTime(scope.row.birth) }}</span>
             </template>
@@ -79,28 +79,97 @@
           </el-table-column>
         </el-table>
         <!-- 分页导航 -->
-        <el-pagination
-
-            layout="total, sizes, prev, pager, next, jumper"
-            :page-size="10"
+        <Pagination
+            v-show="total>0"
             :total="total"
+            :page.sync="queryParams.pageNum"
+            :limit.sync="queryParams.pageSize"
+            @pagination="init"
         />
       </div>
+
+      <el-dialog :title="title" :visible.sync="open">
+        <el-form label-width="80px">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="姓名">
+                <el-input v-model="form.name"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="学号">
+                <el-input v-model="form.no"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="班级">
+                <el-select v-model="form.classId">
+                  <el-option label="18智72"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="手机号">
+                <el-input v-model="form.phone"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="邮箱">
+                <el-input v-model="form.email"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="出生日期">
+                <el-date-picker v-model="form.birth"></el-date-picker>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="性别">
+                <el-radio-group v-model="form.sex">
+                  <el-radio label="1">男</el-radio>
+                  <el-radio label="0">女</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="状态">
+                <el-radio-group v-model="form.status">
+                  <el-radio label="0">正常</el-radio>
+                  <el-radio label="1">禁用</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="密码">
+                <el-input type="password" v-model="form.password"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="24">
+              <el-form-item>
+                <el-button type="primary">提交</el-button>
+                <el-button>取消</el-button>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+      </el-dialog>
     </el-card>
   </div>
 </template>
 
 <script>
 import initData from "@/mixins/initData";
+import Pagination from '@/components/Pagination/index';
 
 export default {
   name: "student",
+  components: {
+    Pagination
+  },
   mixins: [initData],
   data() {
     return {
-      info: {
-
-      }
+      info: {}
     }
   },
   created() {
@@ -113,6 +182,30 @@ export default {
       this.base = '/system/user';
       this.modalName = '学生';
       return true;
+    },
+    reset() {
+      this.form = {
+        name: undefined,
+        no: undefined,
+        classId: undefined,
+        phone: undefined,
+        email: undefined,
+        birth: undefined,
+        sex: '1',
+        status: '0',
+        password: '123456'
+      }
+    },
+    handleAdd() {
+      this.title = '添加学生信息';
+      this.reset();
+      this.open = true;
+    },
+    handleEdit() {
+
+    },
+    handleDelete() {
+
     }
   }
 }

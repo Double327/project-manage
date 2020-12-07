@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import {updateProfile} from "@/api/user/user";
+import {updateProfile} from "@/api/system/user";
 
 export default {
   name: "EditProfile",

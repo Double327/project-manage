@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import {resetPassword} from "@/api/user/user";
+import {resetPassword} from "@/api/system/user";
 
 export default {
   name: "EditPassword",
