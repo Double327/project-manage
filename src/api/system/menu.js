@@ -21,3 +21,26 @@ export function getTreeSelect() {
         method: 'get'
     });
 }
+
+export function addMenu(info) {
+    return request({
+        url: '/system/menu/',
+        method: 'post',
+        data: info
+    });
+}
+
+export function deleteMenu(ids) {
+    return request({
+        url: '/system/menu/' + ids,
+        method: 'delete'
+    });
+}
+
+export function updateMenu(info) {
+    return request({
+        url: '/system/menu/',
+        method: 'put',
+        data: info
+    });
+}

@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import App from './App.vue'
 import '@/assets/style/global.scss';
-import {addDateRange, parseTime, resetForm, selectDictLabel} from "@/utils/commonUtils";
+import {addDateRange, parseTime, resetForm, selectDictLabel, handleTree} from "@/utils/commonUtils";
 
 /*引入 Element-UI*/
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import '@/assets/style/common.scss';
 /*引入 Vue-Router*/
 import VueRouter from 'vue-router';
 /*引入Vuex*/
@@ -25,6 +26,7 @@ Vue.prototype.addDateRange = addDateRange;
 Vue.prototype.parseTime = parseTime;
 Vue.prototype.resetForm = resetForm;
 Vue.prototype.selectDictLabel = selectDictLabel;
+Vue.prototype.handleTree = handleTree;
 
 
 Vue.prototype.msgSuccess = function (msg) {
