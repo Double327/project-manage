@@ -16,7 +16,7 @@
             </el-dropdown-item>
           </router-link>
           <el-dropdown-item>
-            <span>退出登录</span>
+            <span @click="handleLogout">退出登录</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -34,6 +34,14 @@ export default {
   computed: {
     avatar() {
       return '';
+    },
+  },
+  methods: {
+    handleLogout() {
+      this.$store.dispatch("LogOut").then(() => {
+        this.msgSuccess('退出登录成功!!!');
+        this.$router.push('/login');
+      });
     }
   }
 }
@@ -54,6 +62,7 @@ export default {
       display: block;
       height: 100px;
       overflow: hidden;
+
       img {
         margin: 15px 0 15px 30px;
       }
