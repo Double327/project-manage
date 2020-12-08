@@ -42,7 +42,8 @@
           <el-table-column label="显示顺序" align="center" prop="sortNum"/>
           <el-table-column label="状态" align="center">
             <template slot-scope="scope">
-              <el-switch v-model="scope.row.status" active-value="0" inactive-value="1" @change="changeRoleStatus(scope.row)"/>
+              <el-switch v-model="scope.row.status" active-value="0" inactive-value="1"
+                         @change="changeRoleStatus(scope.row)"/>
             </template>
           </el-table-column>
           <el-table-column label="创建时间" align="center" prop="createTime">
@@ -121,7 +122,15 @@
 <script>
 import initData from "@/mixins/initData";
 import {getTreeSelect} from "@/api/system/menu";
-import {addRole, changeRoleStatus, deleteRole, listRole, updateRole} from "@/api/system/role";
+import {
+  addRole,
+  changeRoleStatus,
+  deleteRole,
+  getRole,
+  listRole,
+  roleMenuTreeselect,
+  updateRole
+} from "@/api/system/role";
 import Pagination from '@/components/Pagination/index';
 
 export default {
@@ -185,6 +194,13 @@ export default {
         this.menuOptions = res.data;
       })
     },
+    /** 根据角色ID查询菜单树结构 */
+    getRoleMenuTreeselect(id) {
+      roleMenuTreeselect(id).then(response => {
+        this.getMenuTreeSelect();
+        this.$refs.menu.setCheckedKeys(response.data);
+      });
+    },
     // 树权限（全选/全不选）
     handleCheckedTreeNodeAll(value) {
       this.$refs.menu.setCheckedNodes(value ? this.menuOptions : []);
@@ -217,13 +233,23 @@ export default {
         this.msgSuccess("删除成功!!!")
       })
     },
-    handleUpdateRole() {
-
+    /** 修改按钮操作 */
+    handleUpdate(row) {
+      this.reset();
+      this.$nextTick(() => {
+        this.getRoleMenuTreeselect(row.id);
+      });
+      getRole(row.id).then(response => {
+        this.form = response.data;
+        this.open = true;
+        this.title = "修改角色";
+      });
     },
     handleSubmit() {
       this.$refs['form'].validate(valid => {
         if (valid) {
-          if (this.form.menuId !== undefined) {
+          if (this.form.id !== undefined) {
+            console.log('更新');
             this.form.menuIds = this.getAllSelectedMenuKey();
             updateRole(this.form).then(res => {
               console.log(res);
@@ -232,6 +258,7 @@ export default {
               this.getList();
             })
           } else {
+            console.log('新增');
             this.form.menuIds = this.getAllSelectedMenuKey();
             console.log(this.form);
             addRole(this.form).then(res => {

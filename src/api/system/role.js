@@ -6,7 +6,21 @@ export function listRole(info) {
         url: '/system/role/list',
         method: 'get',
         param: info
-    })
+    });
+}
+
+export function getRole(id) {
+    return request({
+        url: '/system/role/' + id,
+        method: 'get'
+    });
+}
+
+export function roleMenuTreeselect(id) {
+    return request({
+        url: '/system/menu/roleMenuTreeselect/' + id,
+        method: 'get'
+    });
 }
 
 export function addRole(info) {
