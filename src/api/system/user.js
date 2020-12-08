@@ -16,6 +16,14 @@ export function getTeacherList(info) {
     });
 }
 
+export function getAdminList(info) {
+    return request({
+        url: '/admin/list',
+        method: 'get',
+        params: info
+    });
+}
+
 export function addUser(info) {
     return request({
         url: '/system/user/',
