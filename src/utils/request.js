@@ -46,6 +46,13 @@ service.interceptors.response.use(response => {
                 });
                 return Promise.reject(error)
             }
+            if (error.toString().indexOf('INTERNAL_SERVER_ERROR') !== -1) {
+                Notification.error({
+                    title: '错误',
+                    message: error.msg,
+                    duration: 3000
+                });
+            }
         }
         if (code === 401) {
             MessageBox.confirm(
@@ -62,9 +69,16 @@ service.interceptors.response.use(response => {
                 })
             })
         } else if (code === 403) {
-            router.push({path: '/401'})
+            router.push({path: '/401'});
+        } else {
+            console.log(error);
+            Notification.error({
+                title: '错误',
+                message: error.msg,
+                duration: 3000
+            });
         }
-        return Promise.reject(error)
+        return Promise.reject(error);
     }
 );
 
