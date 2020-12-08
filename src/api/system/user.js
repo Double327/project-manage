@@ -8,6 +8,14 @@ export function getStudentList(info) {
     });
 }
 
+export function getTeacherList(info) {
+    return request({
+        url: '/teacher/list',
+        method: 'get',
+        params: info
+    });
+}
+
 export function addUser(info) {
     return request({
         url: '/system/user/',
