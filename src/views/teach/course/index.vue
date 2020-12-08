@@ -39,7 +39,9 @@
           <el-table-column label="描述" align="center" width="200px" prop="email"/>
           <el-table-column label="状态" align="center">
             <template slot-scope="scope">
-              <el-switch v-model="scope.row.status" active-value="0" inactive-value="1"/>
+              <el-tag v-if="scope.row.status === '0'" type="info">未开课</el-tag>
+              <el-tag v-if="scope.row.status === '1'" type="success">进行中</el-tag>
+              <el-tag v-if="scope.row.status === '2'" type="danger">已结课</el-tag>
             </template>
           </el-table-column>
           <el-table-column label="创建时间" align="center" width="160" prop="createTime">
@@ -111,8 +113,9 @@
             <el-col :span="12">
               <el-form-item label="状态">
                 <el-radio-group v-model="form.status">
-                  <el-radio label="0">正常</el-radio>
-                  <el-radio label="1">禁用</el-radio>
+                  <el-radio label="0">未开课</el-radio>
+                  <el-radio label="1">进行中</el-radio>
+                  <el-radio label="2">已结课</el-radio>
                 </el-radio-group>
               </el-form-item>
             </el-col>
@@ -202,13 +205,12 @@ export default {
     handleAdd() {
       getTeacherList().then(res => {
         this.teacherOptions = res.rows;
-        console.log(res);
       });
       getStudentList().then(res => {
         this.assistantOptions = res.rows;
       });
       this.title = '添加课程信息';
-      this.init();
+      this.getList();
       this.reset();
       this.open = true;
     },
@@ -221,7 +223,7 @@ export default {
       }).then(() => {
         return deleteCourse(deleteIds);
       }).then(() => {
-        this.init();
+        this.getList();
         this.msgSuccess("删除成功!!!")
       })
     },
@@ -234,11 +236,13 @@ export default {
           if (this.form.id !== undefined) {
             editCourse(this.form).then(res => {
               this.msgSuccess(res.msg);
+              this.getList();
               this.open = false;
             });
           } else {
             addCourse(this.form).then(() => {
-              this.msgSuccess(this.form.name + '学生添加成功!');
+              this.msgSuccess(this.form.name + '课程添加成功!');
+              this.getList();
               this.open = false;
             });
           }
